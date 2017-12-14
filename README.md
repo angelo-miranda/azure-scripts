@@ -1,1 +1,1 @@
-# azure-templates
+# azure-scripts
