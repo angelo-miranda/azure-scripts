@@ -21,7 +21,8 @@ $user = "vmadmin"
 $password = 'password'
 
 #Get Azure Image
-$AzureImage = Get-AzureRmVMImage -Location $loc -PublisherName "MicrosoftWindowsServer" -Offer "WindowsServer" -Skus "2016-Datacenter" -Version "2016.127.20171116"
+$AzureImages = Get-AzureRmVMImage -Location $loc -PublisherName "MicrosoftWindowsServer" -Offer "WindowsServer" -Skus "2016-Datacenter" -Version "2016.127.20171116" | Sort-Object Version -Descending
+$AzureImage = $AzureImages[0] | Get-AzureRmVMImage
 
 #Get VNet
 $vnet = Get-AzureRmVirtualNetwork -Name $VNetName -ResourceGroupName $rgname
