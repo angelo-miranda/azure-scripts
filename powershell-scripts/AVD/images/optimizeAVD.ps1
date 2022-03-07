@@ -34,5 +34,5 @@ Write-Host "AIB Customization: Extracting files from "$osOptimizationFileName".z
 # Execute script
 Write-Host 'AIB Customization: Executing OS Optimizations script'
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
-.\Win10_VirtualDesktop_Optimize.ps1 -Verbose
-Write-Host 'AIB Customization: Finished OS Optimizations script'
+.\Windows_VDOT.ps1 -AcceptEULA -Verbose
+Write-Host 'AIB Customization: Finished OS Optimizations script' 
