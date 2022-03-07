@@ -1,0 +1,101 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+    },
+    "variables": {
+    },
+    "resources": [
+        {
+            "name": "__imagetemplatename__",
+            "type": "Microsoft.VirtualMachineImages/imageTemplates",
+            "apiVersion": "2021-10-01",
+            "location": "__imageregion__",
+            "dependsOn": [],
+            "tags": {
+                "imagebuilderTemplate": "AzureImageBuilderSIG",
+                "userIdentity": "enabled"
+            },
+            "identity": {
+                "type": "UserAssigned",
+                "userAssignedIdentities": {
+                    "/subscriptions/__subscriptionID__/resourceGroups/__imagergname__/providers/Microsoft.ManagedIdentity/userAssignedIdentities/__aibidentityname__": {}
+                }
+            },
+            "properties": {
+                "buildTimeoutInMinutes" : 120,
+                "customize": [
+                    {
+                        "type": "PowerShell",
+                        "name": "installFsLogix",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/eicee13/azure-scripts/master/powershell-scripts/AVD/images/installFSLogix.ps1",
+                        "sha256Checksum": "5B85F87A94D093342DAFDBB77813DC1330ABDEBAC2FFC88E8EB92E0713C9CB8B",
+                        "validExitCodes": [0,267014]
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "OptimizeAVD",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/eicee13/azure-scripts/master/powershell-scripts/AVD/images/optimizeAVD.ps1",
+                        "sha256Checksum": "7E33D6CF7CE72740D84DF287B487E3A2E558C8B8A9E11747B13BA6CD5B310AA9"                        
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartCheckCommand": "write-host 'restarting post Optimizations'",
+                        "restartTimeout": "5m"
+                    },
+                    {
+                        "type": "PowerShell",
+                        "name": "Install Teams",
+                        "runElevated": true,
+                        "runAsSystem": true,
+                        "scriptUri": "https://raw.githubusercontent.com/eicee13/azure-scripts/master/powershell-scripts/AVD/images/installTeams.ps1",
+                        "sha256Checksum": "F1170BCDEA34D81E339E5B4DF57F3567E5719139414DD8E2836C3CB85DE8189B"
+                    },
+                    {
+                        "type": "WindowsRestart",
+                        "restartCheckCommand": "write-host 'restarting post Teams Install'",
+                        "restartTimeout": "5m"
+                    },
+                    {
+                        "type": "WindowsUpdate",
+                        "searchCriteria": "IsInstalled=0",
+                        "filters": [
+                            "exclude:$_.Title -like '*Preview*'",
+                            "include:$true"
+                                    ],
+                        "updateLimit": 40
+                    }
+                ],
+                "distribute": [
+                    {   
+                        "type": "SharedImage",
+                        "galleryImageId": "/subscriptions/__subscriptionID__/resourceGroups/__imagergname__/providers/Microsoft.Compute/galleries/__sharedImageGalName__/images/__imagedefname__/versions/__imageversion__",
+                        "runOutputName": "__runOutputName__",
+                        "artifactTags": {
+                            "source": "wvd11",
+                            "baseosimg": "windows11"
+                        },
+                        "replicationRegions": [
+                        "__imageregion__"
+                        ]
+                    }
+                ],
+                "source": {
+                    "type": "PlatformImage",
+                    "publisher": "MicrosoftWindowsDesktop",
+                    "offer": "windows-11",
+                    "sku": "win11-21h2-avd",
+                    "version": "latest"
+                },
+                "vmProfile": {
+                    "vmSize": "Standard_D2s_v3",
+                    "osDiskSizeGB": 127
+                }
+            }
+        }
+    ]
+}
