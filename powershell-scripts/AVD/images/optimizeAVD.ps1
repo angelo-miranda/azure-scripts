@@ -31,7 +31,13 @@ Expand-Archive `
 Set-Location -LiteralPath "$optimizeDirectoryPath\$osOptimizationFileName"
 Write-Host "AIB Customization: Extracting files from "$osOptimizationFileName".zip to "$optimizeDirectoryPath
 
-# Execute script
+#Disable Set-NetAdapterAdvancedProperty step
+Write-Host 'AIB Customization: Disabling Set-NetAdapterAdvancedProperty step'
+$updatePath = "$optimizeDirectoryPath\$osOptimizationFileName\Windows_VDOT.ps1"
+((Get-Content -path $updatePath -Raw) -replace 'Set-NetAdapterAdvancedProperty -DisplayName "Send Buffer Size" -DisplayValue 4MB','#Set-NetAdapterAdvancedProperty -DisplayName "Send Buffer Size" -DisplayValue 4MB') | Set-Content -Path $updatePath
+Write-Host 'AIB Customization: Disabled Set-NetAdapterAdvancedProperty step'
+
+#Execute script
 Write-Host 'AIB Customization: Executing OS Optimizations script'
 Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope Process
 .\Windows_VDOT.ps1 -AcceptEULA -Verbose
