@@ -10,12 +10,8 @@
             "name": "__imagetemplatename__",
             "type": "Microsoft.VirtualMachineImages/imageTemplates",
             "apiVersion": "2021-10-01",
-            "location": "__imageregion__",
+            "location": "__imageprimaryregion__",
             "dependsOn": [],
-            "tags": {
-                "imagebuilderTemplate": "AzureImageBuilderSIG",
-                "userIdentity": "enabled"
-            },
             "identity": {
                 "type": "UserAssigned",
                 "userAssignedIdentities": {
@@ -30,8 +26,8 @@
                         "name": "installFsLogix",
                         "runElevated": true,
                         "runAsSystem": true,
-                        "scriptUri": "https://raw.githubusercontent.com/eicee13/azure-scripts/master/powershell-scripts/AVD/images/installFSLogix.ps1",
-                        "sha256Checksum": "5B85F87A94D093342DAFDBB77813DC1330ABDEBAC2FFC88E8EB92E0713C9CB8B",
+                        "scriptUri": "https://raw.githubusercontent.com/angelo-miranda/azure-scripts/master/powershell-scripts/AVD/images/installFSLogix.ps1",
+                        "sha256Checksum": "5b85f87a94d093342dafdbb77813dc1330abdebac2ffc88e8eb92e0713c9cb8b",
                         "validExitCodes": [0,267014]
                     },
                     {
@@ -39,26 +35,27 @@
                         "name": "OptimizeAVD",
                         "runElevated": true,
                         "runAsSystem": true,
-                        "scriptUri": "https://raw.githubusercontent.com/eicee13/azure-scripts/master/powershell-scripts/AVD/images/optimizeAVD.ps1",
-                        "sha256Checksum": "7E33D6CF7CE72740D84DF287B487E3A2E558C8B8A9E11747B13BA6CD5B310AA9"                        
+                        "scriptUri": "https://raw.githubusercontent.com/angelo-miranda/azure-scripts/master/powershell-scripts/AVD/images/optimizeAVD.ps1",
+                        "sha256Checksum": "d4bedd8a29b5c54eb19e9354693e036572eb26523003a718b349fe98bbc01691",
+                        "validExitCodes": [0,1]                        
                     },
                     {
                         "type": "WindowsRestart",
-                        "restartCheckCommand": "write-host 'restarting post Optimizations'",
-                        "restartTimeout": "5m"
+                        "restartCheckCommand": "Write-Host 'Restarting after Optimizations'",
+                        "restartTimeout": "3m"
                     },
                     {
                         "type": "PowerShell",
                         "name": "Install Teams",
                         "runElevated": true,
                         "runAsSystem": true,
-                        "scriptUri": "https://raw.githubusercontent.com/eicee13/azure-scripts/master/powershell-scripts/AVD/images/installTeams.ps1",
-                        "sha256Checksum": "F1170BCDEA34D81E339E5B4DF57F3567E5719139414DD8E2836C3CB85DE8189B"
+                        "scriptUri": "https://raw.githubusercontent.com/angelo-miranda/azure-scripts/master/powershell-scripts/AVD/images/installTeams.ps1",
+                        "sha256Checksum": "f1170bcdea34d81e339e5b4df57f3567e5719139414dd8e2836c3cb85de8189b"
                     },
                     {
                         "type": "WindowsRestart",
-                        "restartCheckCommand": "write-host 'restarting post Teams Install'",
-                        "restartTimeout": "5m"
+                        "restartCheckCommand": "Write-Host 'Restarting after installing Teams'",
+                        "restartTimeout": "3m"
                     },
                     {
                         "type": "WindowsUpdate",
@@ -75,12 +72,9 @@
                         "type": "SharedImage",
                         "galleryImageId": "/subscriptions/__subscriptionID__/resourceGroups/__imagergname__/providers/Microsoft.Compute/galleries/__sharedImageGalName__/images/__imagedefname__/versions/__imageversion__",
                         "runOutputName": "__runOutputName__",
-                        "artifactTags": {
-                            "source": "wvd11",
-                            "baseosimg": "windows11"
-                        },
                         "replicationRegions": [
-                        "__imageregion__"
+                            "__imageprimaryregion__",
+                            "__imageregion__"
                         ]
                     }
                 ],
