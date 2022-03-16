@@ -14,7 +14,11 @@ $FSLogixDisplayName    = "Microsoft FSLogix Apps"
 $regsetting_kerberos_CloudKerberosTicketRetrievalEnabled = "1"
 
 #FSLogix Profiles registry setting variables
+<<<<<<< HEAD
 $regsetting_profiles_VHDLocations                         = "\\<storageaccountname>.file.core.windows.net\<file-share-name>"
+=======
+$regsetting_profiles_VHDLocations                         = "\\<storageaccountname>.file.core.windows.net\<file-share-name"
+>>>>>>> c62cebea4767d3769924cc1efbb01428395a9808
 $regsetting_profiles_ProfileType                          = "3"
 $regsetting_profiles_Enabled                              = "1"
 $regsetting_profiles_IsDynamic                            = "1"
