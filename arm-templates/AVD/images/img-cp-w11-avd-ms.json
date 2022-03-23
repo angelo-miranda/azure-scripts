@@ -1,6 +1,12 @@
 {
     "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
     "contentVersion": "1.0.0.0",
+    "metadata":{
+        "author": "Angelo Miranda (CloudPoints Consulting Pte Ltd)",
+        "creation date": "10-03-2022",
+        "updated date": "15-03-2022",
+        "purpose": "Install and Configure FsLogix (via Azure Image Builder)"
+    },
     "parameters": {
     },
     "variables": {
