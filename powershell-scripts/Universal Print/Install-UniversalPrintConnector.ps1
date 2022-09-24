@@ -1,4 +1,9 @@
-﻿$softwareDirectoryPath  = "C:\Software"
+﻿# Author        : Angelo Miranda (CloudPoints Consulting Pte Ltd)
+# Creation Date : 23-09-2022
+# Updated       : 24-09-2022
+# Purpose       : Install and Configure Universal Print Connector
+
+$softwareDirectoryPath  = "C:\Software"
 $UPConnectorDownloadURI = "https://aka.ms/UPConnector"
 $UPConnectorInstallerName = "UniversalPrint"
 $UPConnectorDisplayName = "Universal Print connector"
