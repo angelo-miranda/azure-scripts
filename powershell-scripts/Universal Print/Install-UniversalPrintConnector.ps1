@@ -24,7 +24,15 @@ If(-Not $isInstalled) {
 
     #Install Universal Print Connector
     Write-Host "Installing Universal Print Connector"
-    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12    Set-Location "$softwareDirectoryPath"     Start-Process `        -FilePath "$softwareDirectoryPath\$UPConnectorInstallerName.exe" `        -ArgumentList "/install /quiet" `        -Wait `        -Passthru `        -Verbose    Write-Host "Universal Print Connector installation process completed"
+    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+    Set-Location "$softwareDirectoryPath"
+    Start-Process `
+        -FilePath "$softwareDirectoryPath\$UPConnectorInstallerName.exe" `
+        -ArgumentList "/install /quiet" `
+        -Wait `
+        -Passthru `
+        -Verbose
+        Write-Host "Universal Print Connector installation process completed"
 }
 
 $isIESecurityEnabled = Get-ItemPropertyValue -Path 'HKLM:\SOFTWARE\Microsoft\Active Setup\Installed Components\{A509B1A7-37EF-4b3f-8CFC-4F3A74704073}' -Name IsInstalled
